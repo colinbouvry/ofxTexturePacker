@@ -26,6 +26,7 @@ void ofxTPSpriteData::setup() {
 
 
 void ofxTPSpriteData::determineAnimated() {
+#ifndef CPLUSPLUS11
     Poco::RegularExpression reg("((?:(?![\\d]*[.].*$)[\\w\\s])+)([\\d]*)([.].*)$");
 //    int match(const std::string& subject, Match& mtch, int options = 0) const;
     Poco::RegularExpression::MatchVec matches;
@@ -52,21 +53,9 @@ void ofxTPSpriteData::determineAnimated() {
         // Make sure not to Trim names in Texture Packer! if you debug your way here!
         bAnimated = false;
     }
+
+#else
 //---------- CP-11 version
-/** 
-    if (reg.match(name, matches)) {
-        if (subStrings.length(2) > 0) {
-            if (subStrings.length(1) > 0) {
-                animationName = subStrings[1];
-            }
-            isAnimated = true;
-            frame = ofToInt(subStrings[2]);
-        } else {
-            isAnimated = false;
-        }
-    } else {
-        ofLog(OF_LOG_ERROR, "ERROR: Filename format not recognised for " + name);
-    }
 
     smatch subStrings;
     regex expression ("((?:(?![\\d]*[.].*$)[\\w\\s])+)([\\d]*)([.].*)$");
@@ -76,16 +65,15 @@ void ofxTPSpriteData::determineAnimated() {
             if (subStrings.length(1) > 0) {
                 animationName = subStrings[1];
             }
-            isAnimated = true;
+			bAnimated = true;
             frame = ofToInt(subStrings[2]);
         } else {
-            isAnimated = false;
+            bAnimated = false;
         }
     } else {
         ofLog(OF_LOG_ERROR, "ERROR: Filename format not recognised for " + name);
     }
-*/
-
+#endif
 }
 
 void ofxTPSpriteData::extractFrame() {

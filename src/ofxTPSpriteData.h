@@ -11,8 +11,13 @@
 #include <iostream>
 #include <string>
 
-//#include "regex.h"  // posix
-#include <Poco/RegularExpression.h>
+#define CPLUSPLUS11 1
+
+#ifdef CPLUSPLUS11
+	#include <regex>  // posix
+#else
+  #include <Poco/RegularExpression.h>
+#endif
 
 class ofxTPSpriteData;
 typedef shared_ptr<ofxTPSpriteData> ofxTPSpriteDataPtr;
